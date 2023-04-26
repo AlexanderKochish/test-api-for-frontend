@@ -29,7 +29,7 @@ async function start() {
     await sequelize.authenticate();
     await sequelize.sync();
     cron.schedule('0 12 * * *',deleteOldUsers)
-    app.listen(PORT,() => console.log(`Server run on porrt 5000`));
+    app.listen(PORT);
   } catch (error) {
     console.log({message: error.message})
   }
