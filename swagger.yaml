@@ -1,0 +1,315 @@
+openapi: 3.0.0
+info:
+  title: Users-ABZ test-API for front-end developers
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://localhost:5000/api/v1
+    description: Optional server description, e.g. Internal staging server for testing
+paths:
+  /token:
+    get:
+      summary: Return token.
+      description: A JSON object of success true and token.
+      responses: 
+        '200':    # status code
+          description: A JSON object of success true and token.
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  success:
+                    type: boolean
+                  token: 
+                    type: string 
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IiQyYSQwNSRreG5VR29MS1AuYmpubXRrcm5HWFAuUTh6a3N1RmgzWVBDUG9kZWRLMEpzazVGdGJHbzlyYSIsIm5hbWUiOiIkMmEkMDUkbHpNMmE3bmF0WVRnSTZ2elhOWHJQT2JKdmMxbEtHU1JpVmNxOTBvZ1VacGFwMVR2WmdjaUMiLCJlbWFpbCI6IiQyYSQwNSRlMnRSeWdWWGZ3Ti9VQzM5Rnc0T2t1by5CNS5RL1oyeGhURUJPd3VjT2FnaFkwOHJILzdxSyIsImlhdCI6MTY4MTQwODA1NiwiZXhwIjoxNjgxNDEwNDU2fQ.0BWMtLmAhQg7PiHjTADKqLTs4QrDOXFsxoZH9hWQoQc            
+  /users:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: count
+          schema:
+            type: integer
+          description: The numbers of items to return
+      summary: Returns a list of users.
+      description: GET array all users
+      responses:
+        '200':    # status code
+          description: A JSON array of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    success: 
+                      type: boolean
+                    id:
+                      type: integer
+                      description: The unique identifier for user
+                    name:
+                      type: string
+                      description: The user`s name
+                    email:
+                      type: string
+                      description: The user`s email address
+                    phone:
+                      type: string
+                      description: The user`s phone number
+                    position_user:
+                      type: string
+                      description: The user`s position for work
+                    photo:
+                      type: string
+                      description: The user`s image
+                  required:
+                    - id
+                    - name
+                    - email
+                    - phone
+                    - position_user
+                    - photo
+              example:
+                  success:  true
+                  total_pages: 3
+                  total_users: 15
+                  count: 5
+                  users: 
+                  - id: 1
+                    name: "John Doe"
+                    email: "johndoe@example.com"
+                    phone: "+3 (80) 555-1213" 
+                    position_user: "Security"
+                    photo: 'xxx-xxx-xxx.jpg'
+                    createdAt: "2023-04-13T14:52:57.399Z"
+                    updatedAt: "2023-04-13T14:52:57.399Z"
+                    positionId: 1
+                  - id: 2
+                    name: "John Smith"
+                    email: "johnsmith@example.com"
+                    phone: "+3 (80) 566-1312" 
+                    position_user: "Lawyer"
+                    photo: 'xxx-xxx-xxx.jpg'
+                    createdAt: "2023-04-13T14:52:57.399Z"
+                    updatedAt: "2023-04-13T14:52:57.399Z"
+                    positionId: 4
+                  - id: 3
+                    name: "Mike Doe"
+                    email: "mike@example.com"
+                    phone: "+3 (80) 566-1312" 
+                    position_user: "Lawyer"
+                    photo: 'xxx-xxx-xxx.jpg'
+                    createdAt: "2023-04-13T14:52:57.399Z"
+                    updatedAt: "2023-04-13T14:52:57.399Z"
+                    positionId: 4
+
+        '400':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: object
+              example: 
+                  success: false
+                  message: "Page not found"
+        '404':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                  success: false
+                  message: "Validation failed"
+                  fails:                    
+                    count: "The count must be an integer."
+                    page: "The page must be at least 1."   
+    post:
+      security:
+        - bearerAuth: []
+      summary: Created a user.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name user
+                email: 
+                  type: string
+                  description: Email address user
+                phone:
+                  type: string
+                  description: Phone number user
+                positionId:
+                  type: number
+                  description: Position name user
+                photo: 
+                  type: file
+                  description: User photo
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                  success: "true"
+                  user_id: 2
+                  massage: "New user successfully registered" 
+        '422':
+          description: If empty fields form-data.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                  success: false
+                  message: "Not create new user"
+                  errors:
+                    name: "This field is required."
+                    email: "This field is required."
+                    phone: "This field is required."
+                    positionId: "This field is required."
+                    photo: "This field is required."
+  /users/{userId}:
+    get:
+      summary: Returns a user by ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the user to return.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  id:
+                    type: integer
+                    description: The unique identifier for user
+                  name:
+                    type: string
+                    description: The user`s name
+                  email:
+                    type: string
+                    description: The user`s email address
+                  phone:
+                    type: string
+                    description: The user`s phone number
+                  position_user:
+                    type: string
+                    description: The user`s position for work
+              example:
+                  success: true
+                  user:
+                    id: 1
+                    name: "John Doe"
+                    email: "johndoe@example.com"
+                    phone: "+3 (80) 555-1213" 
+                    position_user: "Security"
+                    createdAt: "2023-04-13T14:52:57.399Z"
+                    updatedAt: "2023-04-13T14:52:57.399Z"
+                    positionId: 1
+        '400':
+          description: The specified user ID is invalid (not a number).
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                  success: false
+                  message: "Validation failed"
+                  fails:
+                    user_id: "The user_id must be an integer."
+        '404':
+          description: A user with the specified ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: false,
+                message: "The user with the requested identifier does not exist"
+                fails:
+                  user_id: "User not found"
+  /positions:
+    get:
+      summary: Returns array positions for user.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':    # status code
+          description: A JSON array of users positions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  id:
+                    type: integer
+                    description: The identifier position for user
+                  position:
+                    type: string
+                    description: The name position for user
+              example:
+                  success: true
+                  positions:
+                  - id: 1
+                    position: "Security"
+                  - id: 2
+                    position: "Designer"
+                  - id: 3
+                    position: "Content manager"
+                  - id: 4
+                    position: "Lawyer"
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                  success: false
+                  message: "Page not found"
+        '422':
+          description: Position not found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                  success: false
+                  message: "Position not found"         
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
