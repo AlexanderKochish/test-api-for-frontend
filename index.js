@@ -17,8 +17,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use("/", router);
-app.use(express.static('public'));
 app.use(multer({ storage: storageConfig }).single("photo"));
+app.use(express.static('public'));
 
 const swaggerDocument = YAML.load('./swagger.yaml');
 
