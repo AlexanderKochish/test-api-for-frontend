@@ -10,7 +10,7 @@ class TokenController {
       const token = jwt.sign(
         { id: id, name: hashName, email: hashEmail },
         process.env.JWT_SECRET,
-        { expiresIn: "3d" }
+        { expiresIn: "1h" }
       );
       return res.json({ success: true, token });
     } catch (error) {
