@@ -4,6 +4,8 @@ require("dotenv").config();
 const cors = require("cors");
 const sequelize = require("./db");
 const router = require("./routes/router");
+const multer = require("multer");
+const storageConfig = require("./routes/usersRoute");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const cron = require('node-cron')
@@ -16,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 app.use(express.static('public'));
+app.use(multer({ storage: storageConfig }).single("photo"));
 
 const swaggerDocument = YAML.load('./swagger.yaml');
 
