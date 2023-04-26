@@ -4,7 +4,7 @@ info:
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
   version: 0.1.9
 servers:
-  - url: https://test-api-for-frontend.onrender.com
+  - url: https://test-api-for-frontend-production.up.railway.app
     description: Optional server description, e.g. Main (production) server
 paths:
   /token:
