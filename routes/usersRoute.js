@@ -4,6 +4,11 @@ const usersController = require("../controllers/usersController");
 const guard = require("../middleware/guard");
 const { body } = require("express-validator");
 const multer = require("multer");
+const fs = require('fs')
+
+if(!fs.existsSync('./public')){
+  fs.mkdirSync('./public')
+}
 
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -13,6 +18,7 @@ const storageConfig = multer.diskStorage({
     cb(null, file?.originalname);
   },
 });
+
 
 const upload = multer({ storage: storageConfig });
 

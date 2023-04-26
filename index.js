@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/v1", router);
+app.use("/", router);
 app.use(express.static('public'));
 app.use(multer({ storage: storageConfig }).single("photo"));
 
@@ -32,7 +32,7 @@ async function start() {
     await sequelize.authenticate();
     await sequelize.sync();
     cron.schedule('0 12 * * *',deleteOldUsers)
-    app.listen(PORT);
+    app.listen(PORT,() => console.log(`Server run on porrt 5000`));
   } catch (error) {
     console.log({message: error.message})
   }
