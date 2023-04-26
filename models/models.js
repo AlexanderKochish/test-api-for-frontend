@@ -17,7 +17,7 @@ const Position = sequelize.define(
     name: { type: DataTypes.STRING, unique: true },
   },
   {
-    timestamp: false,
+    timestamps: false,
   }
 );
 
