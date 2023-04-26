@@ -27,7 +27,7 @@ class UsersController {
       }
 
       const position = await Position.findByPk(positionId);
-
+  
       const user = await User.create({
         name,
         email,

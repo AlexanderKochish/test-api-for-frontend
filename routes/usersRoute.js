@@ -4,10 +4,11 @@ const usersController = require("../controllers/usersController");
 const guard = require("../middleware/guard");
 const { body } = require("express-validator");
 const multer = require("multer");
-const fs = require('fs')
+const fs = require("fs");
+const path = require("path");
 
-if(!fs.existsSync('./public')){
-  fs.mkdirSync('./public')
+if (!fs.existsSync("./public")) {
+  fs.mkdirSync("./public");
 }
 
 const storageConfig = multer.diskStorage({
@@ -19,8 +20,23 @@ const storageConfig = multer.diskStorage({
   },
 });
 
-
-const upload = multer({ storage: storageConfig });
+const upload = multer({
+  storage: storageConfig,
+  limits: { fileSize: 500000 },
+  fileFilter: (req, file, cb) => {
+    let mim = file.mimetype;
+    if (mim === "image/jpeg" || mim === "image/jpg" || mim === "image/png") {
+      cb(null, true);
+    } else {
+      cb(
+        new Error(
+          "Error: allowed file types are only files with extension - jpeg, jpg, png."
+        ),
+        false
+      );
+    }
+  },
+});
 
 router.get(/^\/users\/?$/, usersController.getAllUsers);
 router.get("/users/:id", usersController.getOneUser);

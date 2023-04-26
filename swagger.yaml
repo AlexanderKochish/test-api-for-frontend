@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   title: Users-ABZ test-API for front-end developers
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  description: This REST API is designed for front-end developers to improve the skills of working with REST API, the idea and model of the api is taken from the test at [this address - https://apidocs.abz.dev/test_assignment_for_frontend_developer_api_documentation](https://apidocs.abz.dev/test_assignment_for_frontend_developer_api_documentation)
+ 
   version: 0.1.9
 servers:
   - url: https://test-api-for-frontend-production.up.railway.app
