@@ -5,7 +5,7 @@ info:
  
   version: 0.1.9
 servers:
-  - url: https://test-api-for-frontend-production.up.railway.app
+  - url: http://localhost:5000
     description: Optional server description, e.g. Main (production) server
 paths:
   /token:
