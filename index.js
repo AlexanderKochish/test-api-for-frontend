@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/v1", router);
+app.use("/", router);
 app.use(express.static('public'));
 app.use(multer({ storage: storageConfig }).single("photo"));
 
