@@ -10,10 +10,16 @@ const User = sequelize.define("users", {
   position_user: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Position = sequelize.define("positions", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
-});
+const Position = sequelize.define(
+  "positions",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, unique: true },
+  },
+  {
+    timestamp: false,
+  }
+);
 
 Position.hasOne(User);
 User.belongsTo(Position);
