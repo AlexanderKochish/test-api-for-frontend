@@ -5,7 +5,6 @@ const guard = require("../middleware/guard");
 const { body } = require("express-validator");
 const multer = require("multer");
 const fs = require("fs");
-const path = require("path");
 
 if (!fs.existsSync("./public")) {
   fs.mkdirSync("./public");
@@ -28,12 +27,7 @@ const upload = multer({
     if (mim === "image/jpeg" || mim === "image/jpg" || mim === "image/png") {
       cb(null, true);
     } else {
-      cb(
-        new Error(
-          "Error: allowed file types are only files with extension - jpeg, jpg, png."
-        ),
-        false
-      );
+      cb(new Error("Error: allowed file types are only files with extension - jpeg, jpg, png."),false);
     }
   },
 });
