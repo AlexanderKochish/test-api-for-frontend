@@ -46,8 +46,8 @@ class UsersController {
   async getAllUsers(req, res) {
     try {
       let { count, page } = req.query;
-      page = Number(page) || 1;
-      let limit = Number(count) || 5;
+      page = page || 1;
+      let limit = count || 5;
       let totalUsers = await User.findAll();
       let totalPages = Math.ceil(totalUsers.length / limit);
 
@@ -77,10 +77,10 @@ class UsersController {
       }
       const data = {
         success: true,
-        page: page,
+        page: Number(page),
         total_pages: totalPages,
         total_users: totalUsers.length,
-        count: count,
+        count: Number(count),
         users,
       };
 
