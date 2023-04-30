@@ -28,7 +28,7 @@ async function start() {
   try {
     await sequelize.authenticate();
     await sequelize.sync();
-    cron.schedule('0 12 * * *',deleteOldUsers)
+    cron.schedule('0 15 * * *',() => deleteOldUsers)
     app.listen(PORT);
   } catch (error) {
     console.log({message: error.message})
