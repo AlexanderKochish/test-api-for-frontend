@@ -16,14 +16,13 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 app.use(express.static("public"));
-cron.schedule('37 19 * * *',() =>deleteOldUsers())
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.set("x-powered-by","")
 app.use(notFound)
 app.use(errorHandler)
-
+cron.schedule('45 19 * * *',() => deleteOldUsers())
 
 async function start() {
   try {
