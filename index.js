@@ -23,12 +23,13 @@ app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.set("x-powered-by","")
 app.use(notFound)
 app.use(errorHandler)
-cron.schedule('33 19 * * *',() =>deleteOldUsers())
+
 
 async function start() {
   try {
     await sequelize.authenticate();
     await sequelize.sync(); 
+    cron.schedule('33 19 * * *',() =>deleteOldUsers())
     app.listen(PORT);
   } catch (error) {
     console.log({message: error.message})
