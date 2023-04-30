@@ -6,6 +6,7 @@ const deleteOldUsers = async() => {
     try {
         const allUsers = await User.findAll({limit: 10})
         await User.destroy({where:{id:{[Op.gt]: 10}}})
+        console.log(`delete users`);
         return allUsers
     } catch (error) {
         console.log(error.message);
