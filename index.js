@@ -22,7 +22,7 @@ app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.set("x-powered-by","")
 app.use(notFound)
 app.use(errorHandler)
-cron.schedule('20 20 * * *',async() => await deleteOldUsers())
+cron.schedule('40 20 * * *',async() =>{ await deleteOldUsers()})
 
 async function start() {
   try {
