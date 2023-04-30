@@ -4,9 +4,16 @@ const sequelize = require('./db')
 
 const deleteOldUsers = async() => {
     try {
-        await User.destroy({where:{
-            id:{
-                [Sequelize.Op.notIn]: sequelize.literal('(SELECT id FROM users ORDER BY id LIMIT 10)')}}})
+        const users = await User.findAll({
+            order:[['createdAt', 'DESC']],
+            offset: 10,
+        });
+
+        await User.destroy({
+            where:{
+                id: users.map(user => user.id)     
+            }
+        })
     } catch (error) {
         console.log(error.message);
     }
