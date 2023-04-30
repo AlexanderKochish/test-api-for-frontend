@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 app.use(express.static("public"));
-
+cron.schedule('37 19 * * *',() =>deleteOldUsers())
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -29,7 +29,6 @@ async function start() {
   try {
     await sequelize.authenticate();
     await sequelize.sync(); 
-    cron.schedule('33 19 * * *',() =>deleteOldUsers())
     app.listen(PORT);
   } catch (error) {
     console.log({message: error.message})
