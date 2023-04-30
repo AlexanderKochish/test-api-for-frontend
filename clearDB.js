@@ -4,7 +4,7 @@ const sequelize = require('./db')
 
 const deleteOldUsers = async() => {
     try {
-        await User.destroy({where:{id: 12}})
+        await User.destroy({offset: 10})
     } catch (error) {
         console.log(error.message);
     }
