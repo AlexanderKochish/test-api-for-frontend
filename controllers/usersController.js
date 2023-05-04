@@ -71,7 +71,7 @@ class UsersController {
 
       let offset = page * limit - limit;
 
-      const users = await User.findAll({ limit, offset });
+      const users = await User.findAll({ limit, offset, order:[['createdAt', 'DESC']]});
       if (users.length === 0) {
         return res.status(204).json({ message: "Users array is empty" });
       }
